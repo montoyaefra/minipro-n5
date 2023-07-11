@@ -72,12 +72,12 @@
                 Clase <br>
                 Asignada
             </td>
-            <td class="px-6 py-4 flex gap-3">
+            <td class="px-6 py-4 flex flex-row justify-center align-items-center gap-3">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
 
-                <form action="{{ route('maestro.destroy', $usuario->id) }}" method="POST">
+                <form action="{{ route('maestro.destroy', $usuario->id) }}" method="POST" class="flex justify-center align-items-center">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class=" text-red-500 hover:underline text-lg"><i class="fa-solid fa-trash"></i></button>

@@ -334,7 +334,7 @@ return [
         ],
         [
             'text' => 'Clases',
-            'url'  => '##',
+            'url'  => 'clases',
             'icon' => 'fa fa-book',
         ]
    
