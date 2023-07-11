@@ -37,9 +37,7 @@ class UserMcontroller extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombre' =>'required',
-            'email' => ['required','email'],
-            'pass'=>['required'],
-            "rol"=>"required"
+            'email' => ['required','email']
         ]);
 
         if($validator->fails()){
@@ -47,9 +45,13 @@ class UserMcontroller extends Controller
         }
 
         User::create([
+            "dni"=> $request->dni,
             "name"=> $request->nombre,
             "email"=> request('email'),
+            "direction"=> $request->direccion,
             "password"=> Hash::make($request->pass),
+            "birthday"=>$request->nacimiento,
+            "estado" =>$request->estado
         ])->assignRole($request->rol);
         return back();
     }

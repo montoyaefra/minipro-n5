@@ -27,8 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles= Role::all();
-        return  compact("roles");
+       
     }
 
     /**
@@ -36,24 +35,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre' =>'required',
-            'email' => ['required','email'],
-            'pass'=>['required'],
-            "rol"=>"required"
-        ]);
-
-        if($validator->fails()){
-            return back();
-        }
-
-        User::create([
-            "name"=> $request->nombre,
-            "email"=> request('email'),
-            "password"=> Hash::make($request->pass),
-        ])->assignRole($request->rol);
-        
-        return view("user");
+      
     }
 
     /**

@@ -77,17 +77,17 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                  <h5 class="modal-title" id="exampleModalLongTitle">Editar Permisos</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{route("user.update", $usuario->id)}}" class="flex flex-col justify-center" method="POST">
+                    <form action="{{route("user.update", $usuario->id)}}" class="" method="POST">
                         @csrf
                         @method("put")
                         <h6><b>Email</b></h6>
-                        <input type="text" value="{{$usuario->email}}" name="email" required>
+                        <input type="text" class="form-control" value="{{$usuario->email}}" name="email" required>
                         <h6><b>clase asignada no rol</b></h6>
                         <select name="rol" id="roles">
                             <option value="" disabled selected>sin asignar rol</option>
@@ -111,7 +111,7 @@
                           </fieldset>
                           
                         <br>
-                        <button type="submit" class="btn btn-primary mt-5">Save changes</button>
+                        <button type="submit" class="btn btn-primary mt-3">Save changes</button>
                     </form>
                 </div>
                 <div class="modal-footer">
