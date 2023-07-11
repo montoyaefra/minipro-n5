@@ -51,7 +51,7 @@
         </thead>
         <tbody>
 @foreach ($usuarios as $usuario)
-    @foreach ($usuario->cursos as $curso)        
+         
            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     
             <td class="px-6 py-4">
@@ -70,7 +70,9 @@
                 {{$usuario->birthday}}
             </td>
             <td>
+                @foreach ($usuario->cursos as $curso)
                 {{$curso->nombre}}
+                @endforeach
             </td>
             <td class="px-6 py-4 flex flex-row justify-center align-items-center gap-3">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
@@ -128,7 +130,7 @@
               </div>
             </div>
           </div>
-    @endforeach      
+          
 @endforeach
         </tbody>
     </table>
