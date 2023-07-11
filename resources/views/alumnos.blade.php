@@ -19,7 +19,7 @@
 @stop
 
 @section('content')
-
+<div class="container flex flex-col">
     <table class=" text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -36,10 +36,10 @@
                     Email
                 </th>
                 <th scope="col" class="px-6 py-3">
-                   Cumpleaños 
+                   Direccion 
                 </th>
                 <th scope="col" class="px-6 py-3">
-                   Direccion
+                   Cumpleaños 
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Acciones
@@ -69,13 +69,55 @@
                 {{$usuario->birthday}}
             </td>
             <td class="px-6 py-4 flex gap-3">
-                <a href="#" class="font-medium text-blue-600 hover:underline text-lg"><i class="fa-solid fa-pen-to-square"></i></a>
+                <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <form action="{{ route('alumno.destroy', $usuario->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class=" text-red-500 hover:underline text-lg"><i class="fa-solid fa-trash"></i></button>
+                </form>
             </td>
         </tr>
+
+        <div class="modal fade" id="example{{$usuario->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Editar Alumnos</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route("alumno.update", $usuario->id)}}" class="flex flex-col justify-center" method="POST">
+                        @csrf
+                        @method("put")
+                        <h6><b>DNI</b></h6>
+                        <input type="text" value="{{$usuario->dni}}" name="dni">
+                        <h6><b>Nombre</b></h6>
+                        <input type="text" value="{{$usuario->name}}" name="nombre" required>
+                        <h6><b>Email</b></h6>
+                        <input type="text" value="{{$usuario->email}}" name="email" required>
+                        <h6><b>Direccion</b></h6>
+                        <input type="text" value="{{$usuario->direction}}" name="direccion">
+                        <h6><b>Cumpleaños</b></h6>
+                        <input type="date" value="{{$usuario->birthday}}" name="nacimiento">
+                        <br>
+                        <button type="submit" class="btn btn-primary mt-5">Save changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    
+                </div>
+              </div>
+            </div>
+          </div>
         @endforeach
         </tbody>
     </table>
-
+</div>
 
 @stop
 

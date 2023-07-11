@@ -50,7 +50,14 @@
                 {{$usuario->name}}
             </td>
             <td class="px-6 py-4">
-                admin, maestro
+            @php
+                $role = $usuario->getRoleNames();
+            @endphp
+            @if (count($role) != 0)
+                {{ $role[0] }}
+            @else
+                sin asignar rol
+            @endif
             </td>
             <td class="px-6 py-4">
                 @if ($usuario->estado)
@@ -60,13 +67,66 @@
                 @endif
             </td>
             <td class="px-6 py-4 flex gap-3">
-                <a href="#" class="font-medium text-blue-600 hover:underline text-lg"><i class="fa-solid fa-pen-to-square"></i></a>
+                <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
             </td>
         </tr>
+
+        <div class="modal fade" id="example{{$usuario->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route("user.update", $usuario->id)}}" class="flex flex-col justify-center" method="POST">
+                        @csrf
+                        @method("put")
+                        <h6><b>Email</b></h6>
+                        <input type="text" value="{{$usuario->email}}" name="email" required>
+                        <h6><b>clase asignada no rol</b></h6>
+                        <select name="rol" id="roles">
+                            <option value="" disabled selected>sin asignar rol</option>
+                            @foreach ($roles as $rol)
+                            @if ($usuario->hasRole($rol))
+                            <option value="{{ $rol->name}}" selected>{{ $rol->name}}</option>
+                            @else
+                            <option value="{{ $rol->name}}">{{ $rol->name}}</option>
+                            @endif
+                            @endforeach
+                        </select>
+                        <h6><b>Estado</b></h6>
+                        <fieldset>
+                            <div>
+                              <input type="radio" id="contactChoice1" name="estado" value="1" checked/>
+                              <label for="contactChoice1">Activo</label>
+                        
+                              <input type="radio" id="contactChoice2" name="estado" value="0" />
+                              <label for="contactChoice2">Desactivo</label>
+                        
+                          </fieldset>
+                          
+                        <br>
+                        <button type="submit" class="btn btn-primary mt-5">Save changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        
         @endforeach
         </tbody>
     </table>
 </div>
+
 
 @stop
 
@@ -75,5 +135,5 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script> console.log('Hi!'); </>
 @stop

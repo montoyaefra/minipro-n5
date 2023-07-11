@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AlumnController extends Controller
 {
@@ -13,7 +14,7 @@ class AlumnController extends Controller
      */
     public function index()
     {
-        $usuarios=User::all();
+        $usuarios=User::role("alumno")->get();
         return view("alumnos", compact("usuarios"));
     }
 
@@ -46,7 +47,8 @@ class AlumnController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $usuario= User::find($id); 
+        return   view("maestros", compact("usuario"));
     }
 
     /**
@@ -54,7 +56,21 @@ class AlumnController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            "nombre" => "required",
+            "email"=> ["required", "email"]
+        ]);    
+        
+        // $usuario = User::find($id);
+        $usuario = User::find($id);   // lo mismo q el de arriba
+        $usuario->dni= $request->dni;
+        $usuario->name= $request->nombre;
+        $usuario->email=$request->email;
+        $usuario->direction=$request->direccion;
+        $usuario->birthday=$request->nacimiento;
+        $usuario->save();
+
+        return back();
     }
 
     /**
@@ -62,6 +78,13 @@ class AlumnController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $usuario = User::find($id);
+            
+        if ($usuario) {
+            $usuario= User::destroy($id);
+            return back();
+        } else {
+            return back();
+        }
     }
 }
