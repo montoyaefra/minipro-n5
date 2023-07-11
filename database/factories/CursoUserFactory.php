@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Curso;
+use App\Models\CursoUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,11 +17,17 @@ class CursoUserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = CursoUser::class;
     public function definition(): array
     {
+        $cursoId = Curso::inRandomOrder()->first()->id;
+        $userId = User::inRandomOrder()->first()->id;
+
         return [
-            "cursos_id"=> Curso::all()->random()->id,
-            "user_id"=> User::all()->random()->id
+            'cursos_id' => $cursoId,
+            'user_id' => $userId,
         ];
     }
 }
+
+

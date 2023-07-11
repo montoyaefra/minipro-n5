@@ -124,7 +124,7 @@
           <form class="flex flex-col gap-1" method="POST" action="{{ route("clase.store")}}">
             @csrf
             <h6><b>Curso</b></h6>
-            <input type="text" name="nombre" id="curso" placeholder="ingresa Curso" required>
+            <input type="text" name="curso" id="curso" placeholder="ingresa Curso" required>
             <br>
             <button type="submit" class="btn btn-primary mt-3 w-25">Save changes</button>
           </form>  

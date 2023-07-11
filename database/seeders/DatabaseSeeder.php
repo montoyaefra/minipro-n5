@@ -4,10 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Curso;
 use App\Models\CursoUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,11 +20,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(15)->create();
+        User::factory(3)->create();
 
         $this->call([RoleSeeder::class]);
 
-        $user =User::create([
+        User::create([
             "name" =>"erick",
             "email"=>"erick@erick.com",
             "estado"=> true,
@@ -29,8 +33,25 @@ class DatabaseSeeder extends Seeder
             "dni"=>1212346,
             "password"=>bcrypt("admin"),
 
-        ]);
+        ])->assignRole("admin");
 
+
+        $cantidad=6;
+        for ($i= 0 ;$i <$cantidad; $i++){
+            User::factory()->create()->assignRole("alumno");
+        }    
+
+
+        for ($i= 0 ;$i <$cantidad; $i++){
+            $curso= Curso::factory()->create();
+            $maestro= User::factory()->create()->assignRole("maestro");
+
+            DB::table("curso_users")->insert([
+                "curso_id"=> $curso->id,
+                "user_id"=> $maestro ->id,
+            ]);
+        }
+        
 
         // $user->assignRole("admin");
         // \App\Models\User::factory()->create([
