@@ -36,7 +36,6 @@ Route::resource("/alumnos", AlumnController::class)->names("alumno");
 
 Route::resource("/clases", CursoController::class)->names("clase");
 
-Route::resource("/clases", CursoController::class)->names("clase");
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
