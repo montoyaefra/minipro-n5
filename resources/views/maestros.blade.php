@@ -22,7 +22,7 @@
 @stop
 
 @section('content')
-<div class="flex flex-col mx-4">
+<div class="mx-4 flex flex-col">
     <table class=" text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -50,8 +50,8 @@
             </tr>
         </thead>
         <tbody>
-           @foreach ($usuarios as $usuario)
-           @foreach ($usuario->cursos as $curso)
+@foreach ($usuarios as $usuario)
+    @foreach ($usuario->cursos as $curso)        
            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     
             <td class="px-6 py-4">
@@ -128,8 +128,8 @@
               </div>
             </div>
           </div>
-        @endforeach   
-    @endforeach   
+    @endforeach      
+@endforeach
         </tbody>
     </table>
 </div>
