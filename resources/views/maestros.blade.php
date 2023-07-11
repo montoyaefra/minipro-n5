@@ -22,7 +22,7 @@
 @stop
 
 @section('content')
-<div class="container flex flex-col">
+<div class="flex flex-col mx-4">
     <table class=" text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -51,6 +51,7 @@
         </thead>
         <tbody>
            @foreach ($usuarios as $usuario)
+           @foreach ($usuario->cursos as $curso)
            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     
             <td class="px-6 py-4">
@@ -69,8 +70,7 @@
                 {{$usuario->birthday}}
             </td>
             <td>
-                Clase <br>
-                Asignada
+                {{$curso->nombre}}
             </td>
             <td class="px-6 py-4 flex flex-row justify-center align-items-center gap-3">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
@@ -128,7 +128,8 @@
               </div>
             </div>
           </div>
-        @endforeach
+        @endforeach   
+    @endforeach   
         </tbody>
     </table>
 </div>

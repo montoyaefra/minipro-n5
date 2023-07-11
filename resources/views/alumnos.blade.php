@@ -22,7 +22,7 @@
 @stop
 
 @section('content')
-<div class="container flex flex-col">
+<div class="flex flex-col mx-4">
     <table class=" text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
