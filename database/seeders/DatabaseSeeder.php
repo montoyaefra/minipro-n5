@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
 
 
         $cantidad=6;
-        for ($i= 0 ;$i <$cantidad; $i++){
+        $alumnos=10;
+        for ($i= 0 ;$i <$alumnos; $i++){
             User::factory()->create()->assignRole("alumno");
         }    
 

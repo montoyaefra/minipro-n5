@@ -107,7 +107,7 @@
                         <h6><b>Cumpleaños</b></h6>
                         <input type="date" class="form-control" value="{{$usuario->birthday}}" name="nacimiento" required>
                         <br>
-                        <h6><b>clase asignada no rol</b></h6>
+                        <h6><b>Asignar Rol</b></h6>
                         <select name="rol" id="roles">
                             <option value="" disabled selected>sin asignar rol</option>
                             @foreach ($roles as $rol)
