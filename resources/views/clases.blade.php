@@ -31,13 +31,13 @@
                 <th scope="col" class="px-6 py-3">
                     Nombre
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="pl-4 py-3">
                     Maestro
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="pr-1 py-3">
                     Alumnos Inscritos
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="pl-5 py-3">
                     Acciones
                 </th>
             </tr>
@@ -63,12 +63,12 @@
 			 echo $randomNumber;
             @endphp
         </td>
-        <td class="px-6 py-4 flex gap-3">
-            <div class="flex flex-row justify-center aling-center gap-2">
+        <td class="px-6 py-3">
+            <div class="flex flex-row justify-center items-center gap-2 ">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$curso->id}}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <form action="{{ route('clase.destroy', $curso->id) }}" method="POST">
+                <form class="pt-3" action="{{ route('clase.destroy', $curso->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="text-red-500 hover:underline text-lg">
@@ -92,7 +92,7 @@
                     <form action="{{route("clase.update", $curso->id)}}" class="" method="POST">
                         @csrf
                         @method("put")
-                        <h6><b>Email</b></h6>
+                        <h6><b>Nombre del Curso</b></h6>
                         <input type="text" class="form-control" value="{{$curso->nombre}}"  name="curso" placeholder="Agrega Curso" required>
                         <br>
                         <button type="submit" class="btn btn-primary mt-3">Save changes</button>
@@ -125,6 +125,13 @@
             @csrf
             <h6><b>Curso</b></h6>
             <input type="text" name="curso" id="curso" placeholder="ingresa Curso" required>
+            <br>
+            <select name="maestro_id" id="roles">
+                <option value="null" disabled selected>Escoge una clase:</option>
+                @foreach ($users as $user)
+                <option value="{{ $user->id }}" >{{ $user->name }}</option>
+                @endforeach
+            </select>
             <br>
             <button type="submit" class="btn btn-primary mt-3 w-25">Save changes</button>
           </form>  

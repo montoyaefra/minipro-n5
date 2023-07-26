@@ -52,7 +52,7 @@ class AlumnController extends Controller
             "password"=> Hash::make($request->pass),
             "birthday"=>$request->nacimiento,
             "estado" =>$request->estado
-        ])->assignRole($request->rol);
+        ])->assignRole("alumno");
         return back();
     }
 

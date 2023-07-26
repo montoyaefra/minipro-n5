@@ -53,29 +53,29 @@
            @foreach ($usuarios as $usuario)
            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$count++}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$usuario->dni}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$usuario->name}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                {{$usuario->email}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$usuario->direction}}
             </td>
-            <td>
+            <td class="pr-4 pl-4 py-3">
                 {{$usuario->birthday}}
             </td>
-            <td class="px-6 py-4 flex gap-3">
+            <td class="px-6 py-3 flex gap-3">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <form action="{{ route('alumno.destroy', $usuario->id) }}" method="POST">
+                <form class="pt-3" action="{{ route('alumno.destroy', $usuario->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class=" text-red-500 hover:underline text-lg"><i class="fa-solid fa-trash"></i></button>
@@ -146,13 +146,6 @@
             <h6><b>Cumpleaños</b></h6>
             <input type="date" class="form-control"  name="nacimiento" required>
             <br>
-            <select name="rol" id="roles">
-                <option value="null" disabled selected>Escoge un rol:</option>
-            @foreach ($roles as $role)
-                <option value="{{ $role->name }}">{{ $role->name }}</option>
-           
-            @endforeach
-            </select>
             <fieldset>
                 <div>
                   <input type="radio" id="contactChoice1" name="estado" value="1" checked/>

@@ -82,14 +82,14 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{route("user.update", $usuario->id)}}" class="" method="POST">
+                <div class="modal-body d-flex flex-column justify-content-center aling-items-center px-5 mx-5">
+                    <form action="{{route("user.update", $usuario->id)}}"  method="POST">
                         @csrf
                         @method("put")
                         <h6><b>Email</b></h6>
-                        <input type="text" class="form-control" value="{{$usuario->email}}" name="email" required>
+                        <input class="mb-4" type="text" class="form-control" value="{{$usuario->email}}" name="email" required>
                         <h6><b>clase asignada no rol</b></h6>
-                        <select name="rol" id="roles">
+                        <select name="rol" id="roles" class="mb-4">
                             <option value="" disabled selected>sin asignar rol</option>
                             @foreach ($roles as $rol)
                             @if ($usuario->hasRole($rol))

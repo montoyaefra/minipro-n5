@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Curso;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,8 @@ class UserMcontroller extends Controller
     {
         $roles= Role::all();
         $usuarios= User::role("maestro")->get();
-        return view("maestros", compact("usuarios", "roles"));
+        $cursos= Curso::all();
+        return view("maestros", compact("usuarios", "cursos", "roles"));
     }
 
     /**
@@ -34,27 +36,38 @@ class UserMcontroller extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nombre' =>'required',
-            'email' => ['required','email']
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'nombre' => 'required',
+        'email' => ['required', 'email'],
+        'curso_id' => 'nullable|exists:cursos,id' // Validar que el curso_id exista en la tabla cursos
+    ]);
 
-        if($validator->fails()){
-            return back();
-        }
-
-        User::create([
-            "dni"=> $request->dni,
-            "name"=> $request->nombre,
-            "email"=> request('email'),
-            "direction"=> $request->direccion,
-            "password"=> Hash::make($request->pass),
-            "birthday"=>$request->nacimiento,
-            "estado" =>$request->estado
-        ])->assignRole($request->rol);
+    if ($validator->fails()) {
         return back();
     }
+
+    $userData = [
+        "dni" => $request->dni,
+        "name" => $request->nombre,
+        "email" => $request->email,
+        "direction" => $request->direccion,
+        "password" => Hash::make($request->pass),
+        "birthday" => $request->nacimiento,
+        "estado" => $request->estado
+    ];
+
+    $user = User::create($userData)->assignRole("maestro");
+
+    // Si se seleccionó un curso válido, asignarlo al usuario
+    if ($request->curso_id) {
+        $curso = Curso::findOrFail($request->curso_id);
+        $user->cursos()->attach($curso);
+    }
+
+    return back();
+}
+
 
     /**
      * Display the specified resource.
@@ -71,7 +84,8 @@ class UserMcontroller extends Controller
     {
         $usuario= User::find($id); 
         $roles= Role::all();
-        return   view("maestros", compact("usuario", "roles"));
+        $cursos= Curso::all();
+        return   view("maestros", compact("usuario", "roles", "cursos"));
     }
 
     /**
@@ -84,37 +98,21 @@ class UserMcontroller extends Controller
             "email"=> ["required", "email"]
         ]);    
         
-        //paso 1 leer el error
-        $newRol = $request->rol;
-        // Paso 2  traer todos los roles
-        $rolesDB= Role::all();
-        $rolesNames = [];
-
-        // guardo los nombres de los roles en arreglo
-        foreach ($rolesDB as $roleDB){
-            $rolesNames[]= $roleDB->name;
-        }
-        // paso 4 compruebo que el q he recibo existen en arreglo de roles
-        $rolExits= in_array($newRol, $rolesNames, true);
-
+       
         // $usuario = User::find($id);
-        $usuario = User::find($id);   // lo mismo q el de arriba
+        $usuario = User::find($id); 
         $usuario->name= $request->nombre;
         $usuario->email=$request->email;
         $usuario->direction=$request->direccion;
         $usuario->birthday=$request->nacimiento;
         $usuario->save();    
 
-        if($rolExits){
-            //remover los roles existen en el usuario
-            foreach ($rolesNames as $rol){
-                $usuario->removeRole($rol);
-
-                $usuario->assignRole($newRol);
-            }
-        } else {
-            return back();
+        if ($request->has('curso_id')) {
+            $cursoId = $request->curso_id;
+    
+            $usuario->cursos()->sync([$cursoId]);
         }
+      
         return back();
     }
 

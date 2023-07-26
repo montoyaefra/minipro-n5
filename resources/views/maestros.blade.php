@@ -54,16 +54,16 @@
          
            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$count++}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$usuario->name}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                 {{$usuario->email}}
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-3">
                {{$usuario->direction}}
             </td>
             <td>
@@ -74,12 +74,12 @@
                 {{$curso->nombre}}
                 @endforeach
             </td>
-            <td class="px-6 py-4 flex flex-row justify-center align-items-center gap-3">
+            <td class="px-6 py-3 flex flex-row justify-center items-center gap-2">
                 <button class="font-medium text-blue-600 hover:underline text-lg" data-toggle="modal" data-target="#example{{$usuario->id}}">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
 
-                <form action="{{ route('maestro.destroy', $usuario->id) }}" method="POST" class="flex justify-center align-items-center">
+                <form class="pt-3" action="{{ route('maestro.destroy', $usuario->id) }}" method="POST" class="flex justify-center align-items-center">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class=" text-red-500 hover:underline text-lg"><i class="fa-solid fa-trash"></i></button>
@@ -109,15 +109,11 @@
                         <h6><b>Cumpleaños</b></h6>
                         <input type="date" class="form-control" value="{{$usuario->birthday}}" name="nacimiento" required>
                         <br>
-                        <h6><b>Asignar Rol</b></h6>
-                        <select name="rol" id="roles">
-                            <option value="" disabled selected>sin asignar rol</option>
-                            @foreach ($roles as $rol)
-                            @if ($usuario->hasRole($rol))
-                            <option value="{{ $rol->name}}" selected>{{ $rol->name}}</option>
-                            @else
-                            <option value="{{ $rol->name}}">{{ $rol->name}}</option>
-                            @endif
+                        <h6><b>Asignar Clase</b></h6>
+                        <select name="curso_id" id="cursos"> 
+                            <option value="" disabled selected>asignar clase</option>   
+                            @foreach ($cursos as $curso)
+                            <option value="{{ $curso->id }}" >{{ $curso->nombre }}</option>
                             @endforeach
                         </select>
                         <br>
@@ -161,12 +157,11 @@
             <h6><b>Cumpleaños</b></h6>
             <input type="date" class="form-control"  name="nacimiento" required>
             <br>
-            <select name="rol" id="roles">
-                <option value="null" disabled selected>Escoge un rol:</option>
-            @foreach ($roles as $role)
-                <option value="{{ $role->name }}">{{ $role->name }}</option>
-           
-            @endforeach
+            <select name="curso_id" id="roles">
+                <option value="null" disabled selected>Escoge una clase:</option>
+                @foreach ($cursos as $curso)
+                <option value="{{ $curso->id }}" >{{ $curso->nombre }}</option>
+                @endforeach
             </select>
             <fieldset>
                 <div>

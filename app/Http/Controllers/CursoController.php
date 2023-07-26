@@ -35,13 +35,27 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        Curso::create([
-            "nombre"=> $request->curso,
-        ]);
-        return back();
+  
+
+public function store(Request $request)
+{
+    // Crear el curso
+    Curso::create([
+        "nombre" => $request->curso,
+    ]);
+
+    // Obtener el ID del maestro seleccionado
+    $maestroId = $request->maestro_id;
+
+    if ($maestroId) {
+        // Asociar el maestro al curso
+        $curso = Curso::latest()->first(); // Obtener el curso recién creado mejorable es linea
+        $curso->maestros()->attach($maestroId);
     }
+
+    return back();
+}
+
 
     /**
      * Display the specified resource.
@@ -73,6 +87,7 @@ class CursoController extends Controller
         $curso->nombre= $request->curso;
         $curso->save();
 
+        
         return back();
     }
 

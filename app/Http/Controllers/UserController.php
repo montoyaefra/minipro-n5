@@ -60,42 +60,28 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $request->validate([
-            "email"=> ["required", "email"]
-        ]);    
-        
-        //paso 1 leer el error
-        $newRol = $request->rol;
-        // Paso 2  traer todos los roles
-        $rolesDB= Role::all();
-        $rolesNames = [];
+{
+    $request->validate([
+        "email" => ["required", "email"]
+    ]);    
+    
+    $newRol = $request->rol;
 
-        // guardo los nombres de los roles en arreglo
-        foreach ($rolesDB as $roleDB){
-            $rolesNames[]= $roleDB->name;
-        }
-        // paso 4 compruebo que el q he recibo existen en arreglo de roles
-        $rolExits= in_array($newRol, $rolesNames, true);
+    // Verificar si el nuevo rol existe en la base de datos
+    if (Role::where('name', $newRol)->exists()) {
+        $usuario = User::find($id);
+        $usuario->email = $request->email;
+        $usuario->estado = $request->estado;
+        $usuario->save();
 
-        // $usuario = User::find($id);
-        $usuario = User::find($id);   // lo mismo q el de arriba
-        $usuario->email=$request->email;
-        $usuario->estado=$request->estado;
-        $usuario->save();    
-
-        if($rolExits){
-            //remover los roles existen en el usuario
-            foreach ($rolesNames as $rol){
-                $usuario->removeRole($rol);
-
-                $usuario->assignRole($newRol);
-            }
-        } else {
-            return back();
-        }
+        // Asignar el nuevo rol al usuario y eliminar los roles existentes
+        $usuario->syncRoles($newRol);
+    } else {
         return back();
     }
+
+    return back();
+}
 
     /**
      * Remove the specified resource from storage.

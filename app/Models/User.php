@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -54,12 +55,25 @@ class User extends Authenticatable
         return "https://picsum.photos/300/300";
     }
 
-    public function adminlte_desc(){
-        return "administrador";
+    public function adminlte_desc() {
+        // Verifica que el usuario esté autenticado
+        if (Auth::check()) {
+            // Obtiene el usuario actualmente autenticado
+            $user = Auth::user();
+            // Obtiene el rol del usuario
+            $rol = $user->roles->first()->name; // Accede directamente a la propiedad `name` del rol.
+    
+            // Ahora puedes retornar el nombre del rol para usarlo en tu vista
+            return $rol;
+        }
+        // Si el usuario no está autenticado, puedes retornar algo o redireccionarlo a la página de inicio de sesión.
+        return 'Usuario sin rol';
     }
 
+    public $timestamps = false;
     public function cursos()
     {
         return $this->belongsToMany(Curso::class, "curso_users");
     }
 }
+
