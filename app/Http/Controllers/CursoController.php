@@ -50,7 +50,7 @@ public function store(Request $request)
     if ($maestroId) {
         // Asociar el maestro al curso
         $curso = Curso::latest()->first(); // Obtener el curso recién creado mejorable es linea
-        $curso->cursos()->attach($maestroId);
+        $curso->users()->attach($maestroId);
     }
 
     return back();
