@@ -50,7 +50,7 @@ public function store(Request $request)
     if ($maestroId) {
         // Asociar el maestro al curso
         $curso = Curso::latest()->first(); // Obtener el curso recién creado mejorable es linea
-        $curso->maestros()->attach($maestroId);
+        $curso->cursos()->attach($maestroId);
     }
 
     return back();
@@ -70,7 +70,9 @@ public function store(Request $request)
      */
     public function edit(string $id)
     {
-        $curso= Curso::find($id); 
+        $curso= Curso::find($id);
+        $maestros = User::role('maestro')->get();
+        return view('tu_vista_de_edicion', compact('curso', 'maestros'));
     }
 
     /**
@@ -82,14 +84,21 @@ public function store(Request $request)
             "curso" => "required",
         ]);    
         
-        // $usuario = User::find($id);
-        $curso = Curso::find($id);   // lo mismo q el de arriba
-        $curso->nombre= $request->curso;
+        $curso = Curso::find($id);   
+        $curso->nombre = $request->curso;
         $curso->save();
-
-        
+    
+        // Obtener el ID del maestro seleccionado
+        $maestroId = $request->maestro_id;
+    
+        if ($maestroId) {
+            // Asociar el maestro al curso usando el método sync
+            $curso->users()->sync([$maestroId]);
+        }
+    
         return back();
     }
+
 
     /**
      * Remove the specified resource from storage.

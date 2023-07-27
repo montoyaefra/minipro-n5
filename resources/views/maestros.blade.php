@@ -158,7 +158,7 @@
             <input type="date" class="form-control"  name="nacimiento" required>
             <br>
             <select name="curso_id" id="roles">
-                <option value="null" disabled selected>Escoge una clase:</option>
+                <option value="null" selected>selecciona clase asignada</option>
                 @foreach ($cursos as $curso)
                 <option value="{{ $curso->id }}" >{{ $curso->nombre }}</option>
                 @endforeach

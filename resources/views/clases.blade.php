@@ -95,6 +95,13 @@
                         <h6><b>Nombre del Curso</b></h6>
                         <input type="text" class="form-control" value="{{$curso->nombre}}"  name="curso" placeholder="Agrega Curso" required>
                         <br>
+                        <select name="maestro_id">
+                            <option value="null" selected>selecciona un maestro</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                        <br>                        
                         <button type="submit" class="btn btn-primary mt-3">Save changes</button>
                     </form>
                 </div>
@@ -124,7 +131,7 @@
           <form class="flex flex-col gap-1" method="POST" action="{{ route("clase.store")}}">
             @csrf
             <h6><b>Curso</b></h6>
-            <input type="text" name="curso" id="curso" placeholder="ingresa Curso" required>
+            <input type="text" name="curso" id="curso" placeholder="ingresa el nombre Curso" required>
             <br>
             <select name="maestro_id" id="roles">
                 <option value="null" disabled selected>Escoge una clase:</option>

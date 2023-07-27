@@ -14,5 +14,8 @@ class Curso extends Model
     protected $fillable = ['nombre'];
     public $timestamps = false;
 
-
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'curso_users', 'curso_id', 'user_id');
+    }
 }

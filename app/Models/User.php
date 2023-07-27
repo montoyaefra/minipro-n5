@@ -60,20 +60,24 @@ class User extends Authenticatable
         if (Auth::check()) {
             // Obtiene el usuario actualmente autenticado
             $user = Auth::user();
-            // Obtiene el rol del usuario
-            $rol = $user->roles->first()->name; // Accede directamente a la propiedad `name` del rol.
-    
-            // Ahora puedes retornar el nombre del rol para usarlo en tu vista
-            return $rol;
+            
+            // Verifica que el usuario tenga roles asignados
+            if ($user->roles->count() > 0) {
+                // Obtiene el rol del usuario
+                $rol = $user->roles->first()->name;
+         
+                return $rol;
+            }
         }
-        // Si el usuario no está autenticado, puedes retornar algo o redireccionarlo a la página de inicio de sesión.
+    
         return 'Usuario sin rol';
     }
+    
 
     public $timestamps = false;
     public function cursos()
     {
-        return $this->belongsToMany(Curso::class, "curso_users");
+        return $this->belongsToMany(Curso::class, "curso_users", 'user_id', 'curso_id');
     }
 }
 
